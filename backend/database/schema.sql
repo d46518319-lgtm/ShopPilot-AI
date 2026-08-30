@@ -45,3 +45,14 @@ CREATE TABLE cart_items (
     FOREIGN KEY (customer_id) REFERENCES customers(id),
     FOREIGN KEY (product_id) REFERENCES products(id)
 );
+DROP TABLE IF EXISTS campaigns;
+
+CREATE TABLE campaigns (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    target_description TEXT NOT NULL,
+    offer_description TEXT NOT NULL,
+    target_customer_ids TEXT NOT NULL,
+    created_date TEXT NOT NULL,
+    status TEXT NOT NULL DEFAULT 'active'
+);
