@@ -56,3 +56,11 @@ CREATE TABLE campaigns (
     created_date TEXT NOT NULL,
     status TEXT NOT NULL DEFAULT 'active'
 );
+CREATE TABLE activity_log (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_message TEXT NOT NULL,
+    tool_used TEXT NOT NULL,
+    finding_summary TEXT NOT NULL,
+    action_taken TEXT,
+    timestamp TEXT NOT NULL
+);
