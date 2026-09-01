@@ -1,12 +1,23 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from database.db import get_connection
-
+from pydantic import BaseModel
+from agent.orchestrator import run_agent_with_action
+from tools.campaigns import list_campaigns
+from tools.campaign_simulation import simulate_campaign_performance
+from tools.activity_log import get_activity_log
+import os
 app = FastAPI(title="ShopPilot AI Backend")
+@app.on_event("startup")
+def seed_database_if_needed():
+    from database.db import DB_PATH
+    if not os.path.exists(DB_PATH):
+        from database.seed_data import create_database
+        create_database()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -95,3 +106,24 @@ def get_top_products():
         })
 
     return result
+class ChatMessage(BaseModel):
+    message: str
+
+
+@app.post("/api/agent/chat")
+def agent_chat(payload: ChatMessage):
+    result = run_agent_with_action(payload.message)
+    return result
+
+
+@app.get("/api/campaigns")
+def get_campaigns():
+    campaigns = list_campaigns()
+    for c in campaigns:
+        c["performance"] = simulate_campaign_performance(c["campaign_id"])
+    return campaigns
+
+
+@app.get("/api/agent/activity-log")
+def agent_activity_log():
+    return get_activity_log()
