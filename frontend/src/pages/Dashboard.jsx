@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
-
-const API_BASE = 'http://127.0.0.1:8000'
+const API_BASE = 'https://shoppilot-ai-y3ci.onrender.com'
 
 function StatCard({ label, value, sub }) {
   return (

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-const API_BASE = 'http://127.0.0.1:8000'
+const API_BASE = 'https://shoppilot-ai-y3ci.onrender.com'
 
 function Campaigns() {
   const [campaigns, setCampaigns] = useState([])
